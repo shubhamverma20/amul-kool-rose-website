@@ -1530,3 +1530,40 @@ input[type="range"]::-webkit-slider-thumb:hover {
     transition: opacity 0.8s cubic-bezier(0.215, 0.61, 0.355, 1), 
                 transform 0.8s cubic-bezier(0.215, 0.61, 0.355, 1) !important;
 }
+
+/* --- RATING STARS AND INPUT STYLING --- */
+.star-btn {
+    color: #ccc;
+    font-variation-settings: 'FILL' 0;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.star-btn:hover {
+    transform: scale(1.15);
+}
+
+.star-btn.active-star {
+    color: #fe97b9 !important;
+    font-variation-settings: 'FILL' 1 !important;
+}
+
+#reviews-list {
+    max-height: 530px;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+}
+
+/* Custom scrollbar for reviews list */
+#reviews-list::-webkit-scrollbar {
+    width: 6px;
+}
+#reviews-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+#reviews-list::-webkit-scrollbar-thumb {
+    background: rgba(0, 6, 102, 0.1);
+    border-radius: 10px;
+}
+#reviews-list::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 6, 102, 0.2);
+}

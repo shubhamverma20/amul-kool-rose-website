@@ -272,7 +272,7 @@
             </div>
         </section>
 
-        <!-- Customer Reviews (Copied from code.html) -->
+        <!-- Customer Reviews (Dynamic Node.js + Express + SQLite Integration) -->
         <section id="reviews" class="px-margin-mobile py-16 bg-surface-container-lowest scroll-mt-20">
             <div class="max-w-container-max mx-auto">
                 <div class="flex flex-col md:flex-row justify-between items-end mb-10 gap-6">
@@ -281,7 +281,7 @@
                         <p class="text-on-surface-variant">Hear what our Kool community has to say about the Rose experience.</p>
                     </div>
                     <div class="flex items-center gap-2 bg-primary/5 px-6 py-3 rounded-full">
-                        <div class="flex text-secondary">
+                        <div class="flex text-secondary text-[#fe97b9]">
                             <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
                             <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
                             <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
@@ -291,51 +291,91 @@
                         <span class="font-bold text-primary">4.8 / 5.0</span>
                     </div>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <!-- Review Card 1 -->
-                    <div class="p-8 bg-white rounded-3xl border border-outline-variant/10 shadow-sm hover:shadow-md transition-shadow reveal">
-                        <div class="flex items-center gap-4 mb-4">
-                            <svg class="w-12 h-12 rounded-full" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="50" cy="50" r="50" fill="#ffd9e2"/>
-                                <path d="M50 45C58.2843 45 65 38.2843 65 30C65 21.7157 58.2843 15 50 15C41.7157 15 35 21.7157 35 30C35 38.2843 41.7157 45 50 45Z" fill="#fe97b9"/>
-                                <path d="M50 52C32.3269 52 18 66.3269 18 84C18 84.5 22 88 50 88C78 88 82 84.5 82 84C82 66.3269 67.6731 52 50 52Z" fill="#fe97b9"/>
-                            </svg>
-                            <div>
-                                <h4 class="font-bold text-primary">Ananya M.</h4>
-                                <p class="text-xs text-on-surface-variant">Verified Buyer</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+                    <!-- Submit a Review (Left Side) -->
+                    <div class="md:col-span-4 bg-white p-8 rounded-[32px] border border-outline-variant/15 shadow-sm space-y-6">
+                        <h3 class="font-bold text-primary text-xl flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[#fe97b9]">rate_review</span> Share Your Review
+                        </h3>
+                        <form id="review-form" class="space-y-4">
+                            <div class="flex flex-col gap-2">
+                                <label for="review-name" class="text-sm font-bold text-primary">Your Name</label>
+                                <input type="text" id="review-name" required placeholder="Siddharth S." class="px-4 py-2.5 rounded-full border border-outline-variant/40 focus:outline-none focus:border-secondary transition-all text-sm">
                             </div>
-                        </div>
-                        <p class="text-on-surface-variant italic">"The rose flavor is so authentic. It reminds me of the homemade rose milk my grandmother used to make. Super refreshing!"</p>
+                            
+                            <div class="flex flex-col gap-2">
+                                <span class="text-sm font-bold text-primary">Rating</span>
+                                <div class="rating-stars flex gap-1 cursor-pointer">
+                                    <span class="material-symbols-outlined star-btn text-2xl text-outline" data-rating="1">star</span>
+                                    <span class="material-symbols-outlined star-btn text-2xl text-outline" data-rating="2">star</span>
+                                    <span class="material-symbols-outlined star-btn text-2xl text-outline" data-rating="3">star</span>
+                                    <span class="material-symbols-outlined star-btn text-2xl text-outline" data-rating="4">star</span>
+                                    <span class="material-symbols-outlined star-btn text-2xl text-outline" data-rating="5">star</span>
+                                </div>
+                                <input type="hidden" id="review-rating" required value="">
+                            </div>
+                            
+                            <div class="flex flex-col gap-2">
+                                <label for="review-comment" class="text-sm font-bold text-primary">Comment</label>
+                                <textarea id="review-comment" required rows="3" placeholder="What did you like about the flavor?" class="px-4 py-3 rounded-2xl border border-outline-variant/40 focus:outline-none focus:border-secondary transition-all text-sm resize-none"></textarea>
+                            </div>
+                            
+                            <button type="submit" class="w-full py-3 bg-[#000666] text-white rounded-full font-bold hover:scale-[1.02] transition-transform text-sm flex items-center justify-center gap-2">
+                                <span class="material-symbols-outlined text-sm">publish</span> Submit Review
+                            </button>
+                        </form>
                     </div>
-                    <!-- Review Card 2 -->
-                    <div class="p-8 bg-white rounded-3xl border border-outline-variant/10 shadow-sm hover:shadow-md transition-shadow reveal">
-                        <div class="flex items-center gap-4 mb-4">
-                            <svg class="w-12 h-12 rounded-full" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="50" cy="50" r="50" fill="#d9e2ff"/>
-                                <path d="M50 45C58.2843 45 65 38.2843 65 30C65 21.7157 58.2843 15 50 15C41.7157 15 35 21.7157 35 30C35 38.2843 41.7157 45 50 45Z" fill="#000666"/>
-                                <path d="M50 52C32.3269 52 18 66.3269 18 84C18 84.5 22 88 50 88C78 88 82 84.5 82 84C82 66.3269 67.6731 52 50 52Z" fill="#000666"/>
-                            </svg>
-                            <div>
-                                <h4 class="font-bold text-primary">Rahul K.</h4>
-                                <p class="text-xs text-on-surface-variant">Verified Buyer</p>
+
+                    <!-- Reviews List (Right Side) -->
+                    <div class="md:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-6" id="reviews-list">
+                        <!-- Static Review Card 1 -->
+                        <div class="p-8 bg-white rounded-3xl border border-outline-variant/10 shadow-sm hover:shadow-md transition-shadow reveal">
+                            <div class="flex items-center gap-4 mb-4">
+                                <svg class="w-12 h-12 rounded-full" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="50" cy="50" r="50" fill="#ffd9e2"/>
+                                    <path d="M50 45C58.2843 45 65 38.2843 65 30C65 21.7157 58.2843 15 50 15C41.7157 15 35 21.7157 35 30C35 38.2843 41.7157 45 50 45Z" fill="#fe97b9"/>
+                                    <path d="M50 52C32.3269 52 18 66.3269 18 84C18 84.5 22 88 50 88C78 88 82 84.5 82 84C82 66.3269 67.6731 52 50 52Z" fill="#fe97b9"/>
+                                </svg>
+                                <div>
+                                    <h4 class="font-bold text-primary">Ananya M.</h4>
+                                    <p class="text-xs text-on-surface-variant">Verified Buyer</p>
+                                </div>
                             </div>
+                            <p class="text-on-surface-variant italic text-sm">"The rose flavor is so authentic. It reminds me of the homemade rose milk my grandmother used to make. Super refreshing!"</p>
                         </div>
-                        <p class="text-on-surface-variant italic">"Perfect level of sweetness. I carry one for my post-gym cooldown. Amul Kool never fails to deliver quality."</p>
-                    </div>
-                    <!-- Review Card 3 -->
-                    <div class="p-8 bg-white rounded-3xl border border-outline-variant/10 shadow-sm hover:shadow-md transition-shadow reveal">
-                        <div class="flex items-center gap-4 mb-4">
-                            <svg class="w-12 h-12 rounded-full" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="50" cy="50" r="50" fill="#d9f2e6"/>
-                                <path d="M50 45C58.2843 45 65 38.2843 65 30C65 21.7157 58.2843 15 50 15C41.7157 15 35 21.7157 35 30C35 38.2843 41.7157 45 50 45Z" fill="#00b359"/>
-                                <path d="M50 52C32.3269 52 18 66.3269 18 84C18 84.5 22 88 50 88C78 88 82 84.5 82 84C82 66.3269 67.6731 52 50 52Z" fill="#00b359"/>
-                            </svg>
-                            <div>
-                                <h4 class="font-bold text-primary">Sanya P.</h4>
-                                <p class="text-xs text-on-surface-variant">Verified Buyer</p>
+                        
+                        <!-- Static Review Card 2 -->
+                        <div class="p-8 bg-white rounded-3xl border border-outline-variant/10 shadow-sm hover:shadow-md transition-shadow reveal">
+                            <div class="flex items-center gap-4 mb-4">
+                                <svg class="w-12 h-12 rounded-full" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="50" cy="50" r="50" fill="#d9e2ff"/>
+                                    <path d="M50 45C58.2843 45 65 38.2843 65 30C65 21.7157 58.2843 15 50 15C41.7157 15 35 21.7157 35 30C35 38.2843 41.7157 45 50 45Z" fill="#000666"/>
+                                    <path d="M50 52C32.3269 52 18 66.3269 18 84C18 84.5 22 88 50 88C78 88 82 84.5 82 84C82 66.3269 67.6731 52 50 52Z" fill="#000666"/>
+                                </svg>
+                                <div>
+                                    <h4 class="font-bold text-primary">Rahul K.</h4>
+                                    <p class="text-xs text-on-surface-variant">Verified Buyer</p>
+                                </div>
                             </div>
+                            <p class="text-on-surface-variant italic text-sm">"Perfect level of sweetness. I carry one for my post-gym cooldown. Amul Kool never fails to deliver quality."</p>
                         </div>
-                        <p class="text-on-surface-variant italic">"I love how smooth the texture is. The glass bottle look makes it feel so premium. Five stars for the Rose flavor!"</p>
+                        
+                        <!-- Static Review Card 3 -->
+                        <div class="p-8 bg-white rounded-3xl border border-outline-variant/10 shadow-sm hover:shadow-md transition-shadow reveal">
+                            <div class="flex items-center gap-4 mb-4">
+                                <svg class="w-12 h-12 rounded-full" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="50" cy="50" r="50" fill="#d9f2e6"/>
+                                    <path d="M50 45C58.2843 45 65 38.2843 65 30C65 21.7157 58.2843 15 50 15C41.7157 15 35 21.7157 35 30C35 38.2843 41.7157 45 50 45Z" fill="#00b359"/>
+                                    <path d="M50 52C32.3269 52 18 66.3269 18 84C18 84.5 22 88 50 88C78 88 82 84.5 82 84C82 66.3269 67.6731 52 50 52Z" fill="#00b359"/>
+                                </svg>
+                                <div>
+                                    <h4 class="font-bold text-primary">Sanya P.</h4>
+                                    <p class="text-xs text-on-surface-variant">Verified Buyer</p>
+                                </div>
+                            </div>
+                            <p class="text-on-surface-variant italic text-sm">"I love how smooth the texture is. The glass bottle look makes it feel so premium. Five stars for the Rose flavor!"</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -353,6 +393,47 @@
                     </a>
                 </div>
             </div>
+        <!-- Contact Form Section -->
+        <section id="contact" class="py-16 px-margin-mobile bg-surface max-w-container-max mx-auto reveal scroll-mt-20">
+            <div class="bg-surface-container-low rounded-[40px] p-8 md:p-16 border border-outline-variant/20 diffusion-glow">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
+                    <div class="md:col-span-5 space-y-6">
+                        <h2 class="font-display-lg text-primary text-headline-lg">Get in Touch</h2>
+                        <p class="text-on-surface-variant leading-relaxed">
+                            Have questions about Amul Kool Rose or want to order in bulk? Drop us a message and our team will get back to you shortly!
+                        </p>
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-4 text-primary font-bold">
+                                <span class="material-symbols-outlined text-[#fe97b9]">mail</span>
+                                <span>support@amul.coop</span>
+                            </div>
+                            <div class="flex items-center gap-4 text-primary font-bold">
+                                <span class="material-symbols-outlined text-[#fe97b9]">phone</span>
+                                <span>1800-258-3333</span>
+                            </div>
+                        </div>
+                    </div>
+                    <form id="contact-form" class="md:col-span-7 space-y-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div class="flex flex-col gap-2">
+                                <label for="contact-name" class="text-sm font-bold text-primary">Your Name</label>
+                                <input type="text" id="contact-name" name="name" required placeholder="John Doe" class="px-5 py-3 rounded-full border border-outline-variant/40 bg-surface focus:outline-none focus:border-secondary transition-all">
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <label for="contact-email" class="text-sm font-bold text-primary">Email Address</label>
+                                <input type="email" id="contact-email" name="email" required placeholder="john@example.com" class="px-5 py-3 rounded-full border border-outline-variant/40 bg-surface focus:outline-none focus:border-secondary transition-all">
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label for="contact-message" class="text-sm font-bold text-primary">Message</label>
+                            <textarea id="contact-message" name="message" required rows="4" placeholder="How can we help you?" class="px-5 py-4 rounded-3xl border border-outline-variant/40 bg-surface focus:outline-none focus:border-secondary transition-all resize-none"></textarea>
+                        </div>
+                        <button type="submit" class="px-8 py-3 bg-[#000666] text-white rounded-full font-bold hover:scale-105 transition-transform flex items-center gap-2 shadow-md">
+                            <span class="material-symbols-outlined">send</span> Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
         </section>
 
     </main>
@@ -364,7 +445,7 @@
             <a class="text-on-surface-variant hover:text-secondary transition-colors font-body-md text-body-md" href="#">Privacy Policy</a>
             <a class="text-on-surface-variant hover:text-secondary transition-colors font-body-md text-body-md" href="#">Terms of Service</a>
             <a class="text-on-surface-variant hover:text-secondary transition-colors font-body-md text-body-md" href="#specs">Nutrition Info</a>
-            <a class="text-on-surface-variant hover:text-secondary transition-colors font-body-md text-body-md" href="#">Contact Us</a>
+            <a class="text-on-surface-variant hover:text-secondary transition-colors font-body-md text-body-md" href="#contact">Contact Us</a>
         </div>
         <div class="flex gap-6 py-4">
             <a class="w-10 h-10 rounded-full bg-outline-variant/20 flex items-center justify-center hover:bg-secondary hover:text-white transition-all" href="#"><span class="material-symbols-outlined text-lg">public</span></a>

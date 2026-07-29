@@ -278,6 +278,183 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // --- 7. BACKEND API INTEGRATION (Node.js + Express + SQLite) ---
+    const API_URL = 'http://localhost:3000/api';
+
+    // A. Star Rating Interactive Selection
+    const starBtns = document.querySelectorAll('.star-btn');
+    const ratingInput = document.getElementById('review-rating');
+
+    starBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const ratingValue = this.getAttribute('data-rating');
+            if (ratingInput) ratingInput.value = ratingValue;
+
+            // Highlight selected stars
+            starBtns.forEach(star => {
+                const starVal = star.getAttribute('data-rating');
+                if (parseInt(starVal) <= parseInt(ratingValue)) {
+                    star.classList.add('active-star');
+                } else {
+                    star.classList.remove('active-star');
+                }
+            });
+        });
+    });
+
+    // B. Load Dynamic Reviews from Backend
+    const reviewsList = document.getElementById('reviews-list');
+    
+    async function loadReviews() {
+        if (!reviewsList) return;
+        
+        try {
+            const response = await fetch(`${API_URL}/reviews`);
+            if (!response.ok) throw new Error('Failed to fetch reviews');
+            
+            const reviews = await response.json();
+            
+            // Render each review card from backend
+            reviews.forEach(review => {
+                renderReviewCard(review, false); // append to bottom
+            });
+        } catch (err) {
+            console.warn('Backend server not running. Serving static reviews only.', err.message);
+        }
+    }
+
+    function renderReviewCard(review, prepend = true) {
+        if (!reviewsList) return;
+
+        // Generate theme colors based on name length for visual variety
+        const themes = [
+            { bg: '#ffd9e2', fill: '#fe97b9' }, // Rose Pink
+            { bg: '#d9e2ff', fill: '#000666' }, // Heritage Blue
+            { bg: '#d9f2e6', fill: '#00b359' }, // Teal
+            { bg: '#ffeed9', fill: '#ff9900' }  // Orange
+        ];
+        const theme = themes[review.name.length % themes.length];
+
+        const card = document.createElement('div');
+        card.className = 'p-8 bg-white rounded-3xl border border-outline-variant/10 shadow-sm hover:shadow-md transition-shadow reveal revealed';
+        
+        // Generate rating stars HTML
+        let starsHTML = '';
+        for (let i = 1; i <= 5; i++) {
+            const fillVal = i <= review.rating ? " 'FILL' 1" : " 'FILL' 0";
+            starsHTML += `<span class="material-symbols-outlined text-sm text-[#fe97b9]" style="font-variation-settings:${fillVal};">star</span>`;
+        }
+
+        card.innerHTML = `
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center gap-4">
+                    <svg class="w-12 h-12 rounded-full" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="50" r="50" fill="${theme.bg}"/>
+                        <path d="M50 45C58.2843 45 65 38.2843 65 30C65 21.7157 58.2843 15 50 15C41.7157 15 35 21.7157 35 30C35 38.2843 41.7157 45 50 45Z" fill="${theme.fill}"/>
+                        <path d="M50 52C32.3269 52 18 66.3269 18 84C18 84.5 22 88 50 88C78 88 82 84.5 82 84C82 66.3269 67.6731 52 50 52Z" fill="${theme.fill}"/>
+                    </svg>
+                    <div>
+                        <h4 class="font-bold text-primary">${review.name}</h4>
+                        <div class="flex">${starsHTML}</div>
+                    </div>
+                </div>
+                <span class="text-xs text-on-surface-variant/60 font-medium">New Review</span>
+            </div>
+            <p class="text-on-surface-variant italic text-sm">"${review.comment}"</p>
+        `;
+
+        if (prepend) {
+            reviewsList.insertBefore(card, reviewsList.firstChild);
+        } else {
+            reviewsList.appendChild(card);
+        }
+    }
+
+    // C. Submit Review to Backend
+    const reviewForm = document.getElementById('review-form');
+    if (reviewForm) {
+        reviewForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('review-name').value.trim();
+            const rating = ratingInput ? ratingInput.value : '';
+            const comment = document.getElementById('review-comment').value.trim();
+
+            if (!name || !rating || !comment) {
+                showToast('Please fill all review fields and select a rating!');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/reviews`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, rating, comment })
+                });
+
+                if (!response.ok) {
+                    const data = await response.json();
+                    throw new Error(data.error || 'Failed to submit review');
+                }
+
+                const newReview = await response.json();
+                
+                // Add to list and show success
+                renderReviewCard(newReview, true);
+                showToast('Thank you! Review posted successfully.');
+                
+                // Reset form
+                reviewForm.reset();
+                if (ratingInput) ratingInput.value = '';
+                starBtns.forEach(star => star.classList.remove('active-star'));
+
+            } catch (err) {
+                console.error('Error submitting review:', err);
+                showToast(`Failed: ${err.message}`);
+            }
+        });
+    }
+
+    // D. Submit Contact Form to Backend
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('contact-name').value.trim();
+            const email = document.getElementById('contact-email').value.trim();
+            const message = document.getElementById('contact-message').value.trim();
+
+            if (!name || !email || !message) {
+                showToast('Please fill out all contact fields!');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/contact`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, message })
+                });
+
+                if (!response.ok) {
+                    const data = await response.json();
+                    throw new Error(data.error || 'Failed to send message');
+                }
+
+                showToast('Message sent! We will contact you soon.');
+                contactForm.reset();
+
+            } catch (err) {
+                console.error('Error submitting contact form:', err);
+                showToast(`Failed: ${err.message}`);
+            }
+        });
+    }
+
+    // Load initial reviews from database
+    loadReviews();
+
     // --- START PRELOADING ---
     startPreloading();
 });
