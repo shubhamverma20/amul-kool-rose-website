@@ -279,10 +279,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- 7. BACKEND API INTEGRATION (Node.js + Express + SQLite) ---
-    // If local dev server (port 5173), direct API requests to port 3000. In production, use relative paths.
-    const API_URL = window.location.port === '5173' || window.location.port === '8080'
+    // If local hostname, direct API requests to local backend (port 3000). In production, query the Render backend.
+    const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
         ? 'http://localhost:3000/api'
-        : '/api';
+        : 'https://amul-kool-rose-backend.onrender.com/api'; // TODO: Replace with your actual Render Backend Service URL
 
     // A. Star Rating Interactive Selection
     const starBtns = document.querySelectorAll('.star-btn');
