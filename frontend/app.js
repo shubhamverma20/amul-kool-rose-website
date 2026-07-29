@@ -282,7 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // If local hostname, direct API requests to local backend (port 3000). In production, query the Render backend.
     const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
         ? 'http://localhost:3000/api'
-        : 'https://amul-kool-rose-backend.onrender.com/api'; // TODO: Replace with your actual Render Backend Service URL
+        : 'https://amul-kool-rose-website.onrender.com/api';
 
     // A. Star Rating Interactive Selection
     const starBtns = document.querySelectorAll('.star-btn');
