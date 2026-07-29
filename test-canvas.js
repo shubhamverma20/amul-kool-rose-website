@@ -13,8 +13,8 @@ const path = require('path');
     page.on('console', msg => console.log('BROWSER LOG:', msg.text()));
     page.on('pageerror', err => console.log('BROWSER ERROR:', err.message));
 
-    console.log('Navigating to http://localhost:5173/ ...');
-    await page.goto('http://localhost:5173/', { waitUntil: 'networkidle0' });
+    console.log('Navigating to http://localhost:3000/ ...');
+    await page.goto('http://localhost:3000/', { waitUntil: 'networkidle0' });
 
     console.log('Waiting for preloader to fade out...');
     await page.waitForSelector('#preloader.fade-out', { timeout: 20000 });

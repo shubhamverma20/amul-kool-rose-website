@@ -167,6 +167,17 @@ app.post('/api/reviews', (req, res) => {
     });
 });
 
+// Serve static frontend assets from root folder
+app.use(express.static(path.join(__dirname)));
+
+// Fallback all non-API GET requests to serve index.html
+app.use((req, res, next) => {
+    if (req.method === 'GET' && !req.path.startsWith('/api')) {
+        return res.sendFile(path.join(__dirname, 'index.html'));
+    }
+    next();
+});
+
 // Start backend server
 app.listen(PORT, () => {
     console.log(`Backend Express server is running on http://localhost:${PORT}`);
