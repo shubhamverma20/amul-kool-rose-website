@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Scrub Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+            color: #fff;
+            font-family: sans-serif;
+        }
+        .scroll-container {
+            height: 400vh;
+            position: relative;
+        }
+        .sticky-container {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .debug-info {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-family: monospace;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+    <div class="debug-info" id="debug">Scroll to scrub video</div>
+    <div class="scroll-container">
+        <div class="sticky-container">
+            <video id="anim-video" src="video.mp4" muted playsinline preload="auto"></video>
+        </div>
+    </div>
+
+    <script>
+        const video = document.getElementById('anim-video');
+        const debug = document.getElementById('debug');
+        const scrollContainer = document.querySelector('.scroll-container');
+
+        let targetTime = 0;
+        let currentTime = 0;
+
+        window.addEventListener('scroll', () => {
+            const rect = scrollContainer.getBoundingClientRect();
+            const scrollDistance = -rect.top;
+            const maxScrollDistance = rect.height - window.innerHeight;
+            let percent = scrollDistance / maxScrollDistance;
+            percent = Math.max(0, Math.min(1, percent));
+
+            if (video.duration) {
+                targetTime = percent * video.duration;
+            }
+        });
+
+        function tick() {
+            // Smooth lerp
+            currentTime += (targetTime - currentTime) * 0.1;
+            
+            if (video.duration) {
+                video.currentTime = currentTime;
+                debug.textContent = `Scroll: ${Math.round(currentTime * 100 / video.duration)}% | Time: ${currentTime.toFixed(2)}s / ${video.duration.toFixed(2)}s`;
+            }
+            
+            requestAnimationFrame(tick);
+        }
+
+        video.addEventListener('loadedmetadata', () => {
+            requestAnimationFrame(tick);
+        });
+    </script>
+</body>
+</html>
